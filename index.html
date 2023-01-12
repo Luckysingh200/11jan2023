@@ -16,25 +16,24 @@
         <div class="container">
             <div class="row">
                 <div class="col-4 l_tbdr" >
-                    <form>
+                    <form onsubmit="sendmydata(this);return false;" >
                         <div class="mb-3">
-                          <label for="exampleInputEmail1" class="form-label">Email address</label>
-                          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                          <label for="fname" class="form-label">First Name</label>
+                          <input autofocus type="text" class="form-control" id="fname" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
-                          <label for="exampleInputPassword1" class="form-label">Password</label>
-                          <input type="password" class="form-control" id="exampleInputPassword1">
+                          <label for="lname" class="form-label">Last Name</label>
+                          <input type="text" class="form-control" id="lname" aria-describedby="emailHelp">
                         </div>
-                        <div class="mb-3 form-check">
-                          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        <div class="mb-3">
+                          <label for="email" class="form-label">Email</label>
+                          <input type="email" class="form-control" id="email">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                       </form>
                 </div>
                 <div class="col-8 l_tbdr" >
-                    <table class="table mytable" >
+                    <table class="table mytable " >
                         <thead>
                           <tr>
                             <th scope="col">#</th>
@@ -44,6 +43,15 @@
                           </tr>
                         </thead>
                         <tbody>
+                          <tr>
+                            <td colspan="5">
+                              <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                  <span class="visually-hidden">Loading...</span>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
 
                         </tbody>
                       </table>
@@ -95,6 +103,40 @@
             .catch(function(err){
                 console.log(err);
             })
+        </script>
+        <script>
+
+          // fat arrow
+
+          let sendmydata = (elem)=>{ 
+            console.log(elem);
+            console.log(elem.querySelector('input#fname').value);
+            console.log(elem.querySelector('input#lname').value);
+            console.log(elem.querySelector('input#email').value);
+            let fn = elem.querySelector('input#fname').value;
+            let ln = elem.querySelector('input#lname').value;
+            let eml =  elem.querySelector('input#email').value;
+            let jsondata = {
+               "first_name": fn,
+               "last_name": ln,
+               "email": eml,
+           };
+           console.log(jsondata);
+            fetch('https://reqres.in/api/users',{
+              method : "POST",
+              headers:{
+                'Content-Type': 'application/json'
+              },
+            })
+            .then((res)=>{return res.json();})
+            .then((data)=>{
+              console.log(data);
+              window.alert("data saved sucessfully");
+            })
+            .catch((error)=>{
+              console.log(error);
+            }); 
+          }
         </script>
     </body>
 </html>
